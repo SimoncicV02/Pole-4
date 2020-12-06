@@ -17,51 +17,63 @@ namespace pole_5
             InitializeComponent();
         }
 
-        
-        int pozice = 1;
-        int[] cislo;
-
         private void button1_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             listBox3.Items.Clear();
             listBox4.Items.Clear();
-            Random nh = new Random();
-            int b = int.Parse(textBox2.Text);
-            int n = Convert.ToInt32(textBox1.Text);
-            cislo = new int[n];
 
+            int n = Convert.ToInt32(textBox1.Text);
+            int b = Convert.ToInt32(textBox2.Text);
+
+            int[] puvodni = new int[n];
+            Random rn = new Random();
+
+            int cislo;
             for (int i = 0; i < n; i++)
             {
-                int x = nh.Next(1, 100);
-                cislo[i] = x;                
+                cislo = rn.Next(1, 100);
+                puvodni[i] = cislo;
             }
-            foreach (int y in cislo)
-            {
-                listBox4.Items.Add(y);
-            }
-            Array.Sort(cislo);
-            foreach (int y in cislo)
-            {
-                listBox1.Items.Add(y);
-            }
-        }
-         
-        private void button2_Click(object sender, EventArgs e)
-        {
 
-            listBox2.Items.Clear();
-            listBox3.Items.Clear();
-            int[] mensi = cislo.Skip(pozice).ToArray();
-            int[] vetsi = cislo.Take(pozice).ToArray();
-            foreach(int y in mensi)
+            foreach (int k in puvodni)
             {
-                listBox2.Items.Add(y);
+                listBox1.Items.Add(k.ToString());
             }
-            foreach(int y in vetsi)
+
+            Array.Sort(puvodni);
+            foreach (int k in puvodni)
             {
-                listBox3.Items.Add(y);
+                listBox4.Items.Add(k.ToString());
+            }
+            
+            int index = 0;
+
+            for (int j = 0; j < n; j++)
+            {
+                if (puvodni[j] <= b)
+                    index = j;
+                else
+                    break;
+            }
+
+            if (index > 0)
+            {
+                int[] mensi = puvodni.Take(index).ToArray();
+
+
+                foreach (int k in mensi)
+                {
+                    listBox2.Items.Add(k.ToString());
+                }
+
+            }
+
+            int[] vetsi = puvodni.Skip(index + 1).ToArray();
+            foreach (int k in vetsi)
+            {
+                listBox3.Items.Add(k.ToString());
             }
         }
     }
